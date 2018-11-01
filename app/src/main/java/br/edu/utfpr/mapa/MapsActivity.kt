@@ -52,13 +52,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         fusedLocationClient.lastLocation
-            .addOnSuccessListener { location: Location ->
-                mMap.moveCamera(
-                    CameraUpdateFactory.newLatLngZoom(
-                        LatLng(location.latitude, location.longitude),
-                        zoom.toFloat()
+            .addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    mMap.moveCamera(
+                        CameraUpdateFactory.newLatLngZoom(
+                            LatLng(location.latitude, location.longitude),
+                            zoom.toFloat()
+                        )
                     )
-                )
+                } else {
+                    mMap.moveCamera(
+                        CameraUpdateFactory.newLatLngZoom(
+                            LatLng(-14.235, -51.9253),
+                            4f
+                        )
+                    )
+                }
             }
 
         mMap.setOnMapClickListener { onMapClick(it) }
